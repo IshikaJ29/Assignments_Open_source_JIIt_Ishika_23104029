@@ -1,0 +1,61 @@
+#que1
+import numpy as np
+from collections import Counter
+
+print(np.__version__)
+
+user_input = input("Enter elements separated by spaces: ")
+elements = user_input.split()
+counter = Counter(elements)
+
+for item, freq in counter.items():
+    print(f"{item}: {freq}")
+#que2
+binary_input = input("Enter a binary string: ")
+ones = binary_input.count('1')
+zeros = binary_input.count('0')
+result = '1' * ones + '0' * zeros
+print(result)
+#que3
+s = input("Enter a string: ")
+n = int(input("Enter the index to remove: "))
+result = s[:n] + s[n+1:]
+print(result)
+#que4
+arr = np.ones((3, 3))
+new_arr = np.zeros((5, 5))
+new_arr[1:-1, 1:-1] = arr
+print(new_arr)
+#que5
+
+array1 = np.array([0, 10, 20, 40, 60])
+array2 = np.array([0, 40])
+
+result = np.isin(array1, array2)
+print(result)
+#que6
+array1 = np.array([0, 10, 20, 40, 60, 80])
+array2 = np.array([10, 30, 40, 50, 70])
+
+result = np.setxor1d(array1, array2)
+print(result)#que7
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+
+result = np.column_stack((a, b))
+print(result)
+#que8
+n = int(input("Enter the size of the square matrix: "))
+print("Enter the matrix row-wise, with elements separated by spaces:")
+
+matrix = []
+for _ in range(n):
+    row = list(map(float, input().split()))
+    matrix.append(row)
+
+arr = np.array(matrix)
+
+print("Rank:", np.linalg.matrix_rank(arr))
+print("Trace:", np.trace(arr))
+print("Determinant:", np.linalg.det(arr))
+
