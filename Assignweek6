@@ -1,0 +1,263 @@
+
+
+
+# In[8]:
+
+
+print(f"Numpy Version : {np.__version__}")
+
+
+# ### Q.1)
+
+# In[15]:
+
+
+ip=[]
+for i in range(7) :
+    ip.append(input())
+    
+freq=Counter(ip)
+print(f"The frequency map : ")
+for it,ct in freq.items() :
+    print(f"{it}:{ct}")
+
+
+# ### q.2)
+
+# In[21]:
+
+
+binary_input = input("Enter binary input : ")
+iparr = np.array(list(binary_input),dtype=int)
+ar=[]
+cone,ctwo=0,0
+for i in range(len(iparr)):
+    if(iparr[i]==1) :
+        cone+=1
+    else :
+        ctwo+=1
+for i in range(cone) :
+    ar.append(1)
+for i in range(ctwo) :
+    ar.append(0)
+newarr = np.array(list(ar),dtype=int)
+print(newarr)
+
+
+# ### q.3)
+
+# In[24]:
+
+
+ip=input("Enter the string:")
+n=int(input("Enter index to remove:"))
+#ip.replace(ip[n],"")
+print(ip[:n] + ip[n+1:] )
+
+
+# ### q.4
+
+# In[5]:
+
+
+ip=np.ones((3,3))
+final=np.zeros((5,5))
+
+final[1:4 , 1:4] = ip
+print(final)
+
+
+# ### q.5) 
+
+# In[7]:
+
+
+array1 = np.array([0, 10, 20, 40, 60])
+array2 = np.array([0, 40])
+result = np.isin(array1, array2)
+print("Compare each element :")
+print(result)
+
+
+# ### q.6)
+
+# In[14]:
+
+
+lt=[]
+rt=[]
+print("enter 1st array:")
+for i in range(7):
+    lt.append(int(input()))
+ar1=np.array(list(lt),dtype=int)
+print("enter 2nd array:")
+for i in range(4):
+    rt.append(int(input()))
+ar2=np.array(list(rt),dtype=int)
+
+rt3=set(lt) ^ set(rt) 
+
+final = np.array(sorted(rt3))
+print(final)
+
+
+# ### q.7)
+
+# In[15]:
+
+
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+c = np.array([7, 8, 9])
+result = np.column_stack((a, b, c))
+
+print(result)
+
+
+# ### q.8)
+
+# In[22]:
+
+
+n=int(input("Enter size of square matrix : "))
+final=[]
+for j in range (n) :
+    temp=[]
+    for i in range (n) :
+        temp.append(int(input()))
+    final.append(temp)
+mat=np.array(final,dtype=float)
+print(mat)
+
+rank = np.linalg.matrix_rank(mat)
+trace = np.trace(mat)
+det = np.linalg.det(mat)
+
+print(f"Rank of the matrix: {rank}")
+print(f"Trace of the matrix: {trace}")
+print(f"Determinant of the matrix: {det}")
+
+import requests
+import pandas as pd
+
+def scrape_ipl_teams():
+    url = "https://en.wikipedia.org/wiki/Indian_Premier_League"
+
+    try:
+        
+        headers = {
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/128.0.0.0 Safari/537.36"
+            )
+        }
+
+      
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+
+      
+        tables = pd.read_html(response.text)
+
+        ipl_table = None
+        for table in tables:
+            if "Team" in table.columns and "Captain" in table.columns:
+                ipl_table = table
+                break
+
+        if ipl_table is None:
+            print("Couldn't find the IPL teams table on the page.")
+            return None
+
+        print("Original IPL Teams Table:\n", ipl_table.head(), "\n")
+
+    
+        ipl_table['Founded'] = pd.to_numeric(
+            ipl_table['Founded'].astype(str).str.extract(r'(\d{4})')[0],
+            errors='coerce'
+        )
+
+        
+        filtered_teams = ipl_table[ipl_table['Founded'] >= 2010]
+
+   
+        sorted_teams = filtered_teams.sort_values(by='Team').reset_index(drop=True)
+
+        print("\nFiltered & Sorted IPL Teams (Founded 2010 or later):\n")
+        print(sorted_teams[['Team', 'City', 'Founded', 'Captain']])
+
+        return sorted_teams
+
+    except Exception as e:
+        print(f"Error scraping IPL data: {e}")
+        return None
+
+
+if __name__ == "__main__":
+    scrape_ipl_teams()
+import requests
+from bs4 import BeautifulSoup
+from pymongo import MongoClient
+import re
+
+URL = "https://www.accuweather.com/en/in/chennai/206671/weather-forecast/206671"
+
+def scrape_weather(url):
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/128.0.0.0 Safari/537.36"
+        )
+    }
+    resp = requests.get(url, headers=headers)
+    resp.raise_for_status()
+    soup = BeautifulSoup(resp.text, "html.parser")
+
+    weather_data = []
+    # find the 10-day forecast section
+    forecast_section = soup.find_all("a", href=re.compile(r"/en/in/chennai/206671/daily-weather-forecast"))
+    for f in forecast_section:
+        text = f.get_text(" ", strip=True)
+        # Each block usually looks like: "Thu 10/30 33° 25° Clouds yielding to sun"
+        parts = text.split()
+        if len(parts) >= 4:
+            date = parts[1]
+            try:
+                high_temp = float(parts[2].replace("°", ""))
+            except ValueError:
+                continue
+            condition = " ".join(parts[4:]) if len(parts) > 4 else ""
+            weather_data.append({
+                "date": date,
+                "temperature": high_temp,
+                "condition": condition
+            })
+    return weather_data
+
+
+def store_in_mongodb(data):
+    client = MongoClient("mongodb://localhost:27017/")
+    db = client["weather_db"]
+    col = db["chennai_weather"]
+    col.delete_many({})
+    if data:
+        col.insert_many(data)
+        print(f"Inserted {len(data)} records into MongoDB.")
+    return col
+
+
+def query_hot_days(col):
+    print("\nDays with temperature above 35°C:\n")
+    for d in col.find({"temperature": {"$gt": 35}}):
+        print(f"{d['date']} — {d['temperature']}°C — {d['condition']}")
+
+
+if __name__ == "__main__":
+    weather = scrape_weather(URL)
+    if not weather:
+        print("No weather data found. The site structure may have changed.")
+    else:
+        collection = store_in_mongodb(weather)
+        query_hot_days(collection)
