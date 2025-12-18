@@ -1,0 +1,415 @@
+1.
+fruits = [&quot;apple&quot;,&quot;mango&quot;,&quot;cherry&quot;,&quot;watermelon&quot;,&quot;guava&quot;]
+print(&quot;First Fruit:&quot; + fruits[0])
+print(&quot;Last Fruit:&quot; + fruits[4])
+print(&quot;Middle Fruits:&quot;+ str(fruits[1:4:1]))
+
+2.
+newDict = {
+&quot;Rohan&quot; : 20,
+&quot;Aman&quot; : 21,
+&quot;Sita&quot; : 19,
+&quot;Ram&quot; : 20,
+&quot;Dev&quot; : 18,
+}
+print(&quot;Age of the specific student:&quot;)
+print(newDict[&quot;Dev&quot;])
+newDict[&quot;Alice&quot;] = 20;
+print(&quot;Updated dictionary:&quot;)
+print(newDict)
+
+3.
+def duplicate(numbers):
+duplicates = []
+counts = {}
+for num in numbers:
+if num in counts:
+counts[num] += 1
+else:
+counts[num] = 1
+for num, count in counts.items():
+if count &gt; 1:
+duplicates.append(num)
+return duplicates
+
+my_list = [1, 2, 3, 4, 5, 2, 6, 7, 8, 9, 3]
+duplicate_numbers = duplicate(my_list)
+print(duplicate_numbers)
+
+4.
+def group(a,n):
+res = []
+for i in range(0, len(a), n):
+res.append(a[i:i + n])
+print(res)
+
+a = [1, 2, 3, 4, 5, 6, 7, 8]
+n = 3
+group(a,n)
+
+5.
+def lensort(string_list):
+return sorted(string_list, key=len)
+my_list = [&quot;apple&quot;, &quot;banana&quot;, &quot;kiwi&quot;, &quot;grapefruit&quot;, &quot;date&quot;]
+sorted_list = lensort(my_list)
+print(sorted_list)
+
+import os
+def extsort(files):
+return sorted(files, key=lambda x: os.path.splitext(x)[1])
+
+file_list = [&#39;a.c&#39;, &#39;a.py&#39;, &#39;b.py&#39;, &#39;bar.txt&#39;, &#39;foo.txt&#39;, &#39;x.c&#39;]
+sorted_files = extsort(file_list)
+print(sorted_files)
+
+6.
+file_name = &quot;sample_file.txt&quot;
+
+print(&quot;--- Writing to a new file ---&quot;)
+with open(file_name, &quot;w&quot;) as file_object:
+file_object.write(&quot;This is the first line.\n&quot;)
+file_object.write(&quot;This is the second line.\n&quot;)
+print(f&quot;Content written to &#39;{file_name}&#39;.&quot;)
+print(&quot;\n--- Reading the entire file ---&quot;)
+with open(file_name, &quot;r&quot;) as file_object:
+content = file_object.read()
+print(f&quot;File content:\n{content}&quot;)
+
+print(&quot;\n--- Reading line by line ---&quot;)
+with open(file_name, &quot;r&quot;) as file_object:
+line1 = file_object.readline()
+line2 = file_object.readline()
+
+print(f&quot;First line: {line1.strip()}&quot;)
+print(f&quot;Second line: {line2.strip()}&quot;)
+print(&quot;\n--- Appending to the file ---&quot;)
+with open(file_name, &quot;a&quot;) as file_object:
+file_object.write(&quot;This line is appended.\n&quot;)
+print(f&quot;Content appended to &#39;{file_name}&#39;.&quot;)
+print(&quot;\n--- Reading the updated file ---&quot;)
+with open(file_name, &quot;r&quot;) as file_object:
+content = file_object.read()
+print(f&quot;Updated file content:\n{content}&quot;)
+print(&quot;\n--- Writing multiple lines using writelines() ---&quot;)
+new_lines = [&quot;Line A from writelines.\n&quot;, &quot;Line B from writelines.\n&quot;]
+with open(&quot;new_lines.txt&quot;, &quot;w&quot;) as file_object:
+file_object.writelines(new_lines)
+print(&quot;New lines written to &#39;new_lines.txt&#39;.&quot;)
+
+print(&quot;\n--- Reading the file created with writelines() ---&quot;)
+with open(&quot;new_lines.txt&quot;, &quot;r&quot;) as file_object:
+content = file_object.read()
+print(f&quot;Content of &#39;new_lines.txt&#39;:\n{content}&quot;)
+
+7.
+def count_file_elements(filepath):
+try:
+char_count = 0
+word_count = 0
+line_count = 0
+with open(filepath, &#39;r&#39;) as file:
+for line in file:
+line_count += 1
+char_count += len(line)
+words = line.split()
+word_count += len(words)
+
+return char_count, word_count, line_count
+except FileNotFoundError:
+print(f&quot;Error: File not found at {filepath}&quot;)
+return None
+
+file_path = &quot;sample_data.txt&quot;
+with open(file_path, &quot;w&quot;) as f:
+f.write(&quot;This is line one.\n&quot;)
+f.write(&quot;Second line here.\n&quot;)
+f.write(&quot;And the third line with more words.&quot;)
+characters, words, lines = count_file_elements(file_path)
+if characters is not None:
+print(f&quot;File Analysis for &#39;{file_path}&#39;:&quot;)
+print(f&quot; Characters: {characters}&quot;)
+print(f&quot; Words: {words}&quot;)
+print(f&quot; Lines: {lines}&quot;)
+non_existent_file = &quot;non_existent.txt&quot;
+count_file_elements(non_existent_file)
+
+8.
+import sys
+def reverse_file_lines(filepath):
+try:
+with open(filepath, &#39;r&#39;) as file:
+lines = file.readlines()
+for line in reversed(lines):
+print(line.rstrip())
+except FileNotFoundError:
+
+print(f&quot;Error: File not found at &#39;{filepath}&#39;. Please check the file path.&quot;)
+if __name__ == &quot;__main__&quot;:
+if len(sys.argv) &lt; 2:
+print(&quot;Usage: python reverse.py &lt;filepath&gt;&quot;)
+else:
+file_path = sys.argv[1]
+reverse_file_lines(file_path)
+
+9.
+import sys
+def reverse_each_line_in_file(filepath):
+try:
+with open(filepath, &#39;r&#39;) as file:
+for line in file:
+print(line.rstrip()[::-1])
+except FileNotFoundError:
+print(f&quot;Error: File not found at &#39;{filepath}&#39;. Please check the file path.&quot;)
+if __name__ == &quot;__main__&quot;:
+if len(sys.argv) &lt; 2:
+print(&quot;Usage: python reverse_each_line.py &lt;filepath&gt;&quot;)
+else:
+file_path = sys.argv[1]
+reverse_each_line_in_file(file_path)
+
+10.
+
+import textwrap
+import sys
+def wrap(filename, width):
+with open(filename, &#39;r&#39;) as f:
+for line in f:
+print(&quot;\n&quot;.join(textwrap.wrap(line, width)))
+wrap(&#39;newFile.txt&#39;,10 )
+
+11.
+def map_custom(func, lst):
+return [func(x) for x in lst]
+print(map_custom(lambda x: x*2, [1, 2, 3]))
+
+12.
+def filter_custom(func, lst):
+return [x for x in lst if func(x)]
+print(filter_custom(lambda x: x % 2 == 0, [1, 2, 3, 4, 5]))
+
+13
+def triplet(n):
+result = []
+for a in range(n):
+for b in range(a, n):
+c = a + b
+if c &lt; n:
+result.append((a, b, c))
+return result
+print(triplet(10))
+
+14.
+def mutate(word):
+mutations = set()
+for i in range(len(word) + 1):
+for c in &#39;abcdefghijklmnopqrstuvwxyz&#39;:
+mutations.add(word[:i] + c + word[i:])
+for i in range(len(word)):
+mutations.add(word[:i] + word[i+1:])
+for i in range(len(word)):
+for c in &#39;abcdefghijklmnopqrstuvwxyz&#39;:
+mutations.add(word[:i] + c + word[i+1:])
+for i in range(len(word) - 1):
+mutations.add(word[:i] + word[i+1] + word[i] + word[i+2:])
+return mutations
+
+print(mutate(&quot;Low&quot;))
+
+15.
+def nearly_equal(a, b):
+if len(a) == len(b):
+count_diff = sum(1 for x, y in zip(a, b) if x != y)
+return count_diff == 1
+if len(a) == len(b) + 1:
+for i in range(len(a)):
+if a[:i] + a[i+1:] == b:
+return True
+if len(a) + 1 == len(b):
+for i in range(len(b)):
+if b[:i] + b[i+1:] == a:
+return True
+if len(a) == len(b) - 1:
+for i in range(len(a) - 1):
+if a[:i] + a[i+1] + a[i] + a[i+2:] == b:
+return True
+return False
+print(nearly_equal(&quot;apple&quot;,&quot;mapple&quot;))
+
+16.
+
+from collections import Counter
+import string
+def count_char_frequency(filename):
+with open(filename, &#39;r&#39;, encoding=&#39;utf-8&#39;) as file:
+content = file.read()
+
+char_count = Counter(content)
+
+for char, count in char_count.items():
+if char in string.printable:
+print(f&quot;&#39;{char}&#39;: {count}&quot;)
+return char_count
+def detect_file_type(filename):
+char_count = count_char_frequency(filename)
+
+with open(filename, &#39;r&#39;, encoding=&#39;utf-8&#39;) as file:
+first_line = file.readline().strip()
+
+if first_line.startswith(&#39;#&#39;):
+return &quot;C program file&quot;
+elif first_line.startswith(&quot;import&quot;) or first_line.startswith(&quot;def&quot;):
+return &quot;Python program file&quot;
+elif all(c in string.printable for c in first_line):
+return &quot;Text file&quot;
+return &quot;Unknown file type&quot;
+filename = &#39;newFile.txt&#39;
+print(f&quot;Character Frequency in {filename}:&quot;)
+count_char_frequency(filename)
+print(&quot;\nFile Type Detection:&quot;)
+print(detect_file_type(filename))
+
+17.
+from collections import defaultdict
+def find_anagrams(words):
+anagram_groups = defaultdict(list)
+for word in words:
+sorted_word = &#39;&#39;.join(sorted(word))
+anagram_groups[sorted_word].append(word)
+
+anagrams = [group for group in anagram_groups.values() if len(group) &gt; 1]
+return anagrams
+words_list = [&#39;eat&#39;, &#39;tea&#39;, &#39;ate&#39;, &#39;bat&#39;, &#39;tab&#39;, &#39;cat&#39;]
+anagrams = find_anagrams(words_list)
+for group in anagrams:
+print(group)
+
+2B
+
+1.
+friends = [&#39;Alice&#39;, &#39;Bob&#39;, &#39;Charlie&#39;, &#39;David&#39;, &#39;Eve&#39;, &#39;Frank&#39;, &#39;Grace&#39;, &#39;Hannah&#39;, &#39;Isaac&#39;, &#39;Jack&#39;]
+print(f&quot;Name at the first index: {friends[1]}&quot;)
+print(f&quot;Name at the last index: {friends[-1]}&quot;)
+print(f&quot;Names from third to fifth index: {friends[2:5]}&quot;)
+print(f&quot;Names in reverse order: {friends[::-1]}&quot;)
+print(f&quot;Names from eighth to third index (in reverse): {friends[7:2:-1]}&quot;)
+
+2.
+students = (&#39;Alice&#39;, &#39;Bob&#39;, &#39;Charlie&#39;, &#39;David&#39;, &#39;Eve&#39;)
+print(students)
+students = students + (&#39;Frank&#39;,)
+print(students)
+students = students[:3] + students[4:]
+print(students)
+print(students[1:4])
+students = list(students)
+students[1] = &#39;Grace&#39;
+students = tuple(students)
+print(students)
+
+3.
+students = {&#39;Alice&#39;: 22, &#39;Bob&#39;: 19, &#39;Charlie&#39;: 23, &#39;David&#39;: 18, &#39;Eve&#39;: 25}
+for name, age in students.items():
+if age &gt; 20:
+print(f&quot;{name}: {age}&quot;)
+students[&#39;Frank&#39;] = 30
+print(students)
+for name, age in students.items():
+print(f&quot;{name}: {age}&quot;)
+del students[&#39;Bob&#39;]
+print(students)
+average_age = sum(students.values()) / len(students)
+print(f&quot;Average age: {average_age}&quot;)
+
+4.
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+for num in numbers:
+if num % 2 == 0:
+print(num)
+
+5.
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 2, 3, 5, 6]
+duplicates = []
+for num in numbers:
+if numbers.count(num) &gt; 1 and num not in duplicates:
+duplicates.append(num)
+print(duplicates)
+
+6.
+string = &quot;Hello, World!&quot;
+reversed_string = string[::-1]
+print(reversed_string)
+7.
+def fibonacci_series(n):
+a, b = 0, 1
+for _ in range(n):
+print(a, end=&#39; &#39;)
+a, b = b, a + b
+fibonacci_series(5)
+
+8.
+def replace_file_content(filename):
+new_content = &quot;Hi, I am currently pursuing my BTech from Jaypee.&quot;
+try:
+
+with open(filename, &#39;w&#39;, encoding=&#39;utf-8&#39;) as file:
+file.write(new_content)
+print(f&quot;File &#39;{filename}&#39; has been updated successfully.&quot;)
+except Exception as e:
+print(f&quot;An error occurred: {e}&quot;)
+filename = &quot;testfile.txt&quot; # Replace with your actual file name
+replace_file_content(filename)
+
+9.
+# reverse.py
+def print_file_in_reverse(filename):
+try:
+with open(filename, &#39;r&#39;, encoding=&#39;utf-8&#39;) as file:
+lines = file.readlines()
+for line in reversed(lines):
+print(line.rstrip()) # rstrip removes trailing newline
+except FileNotFoundError:
+print(f&quot;Error: File &#39;{filename}&#39; not found.&quot;)
+except Exception as e:
+print(f&quot;An error occurred: {e}&quot;)
+# Example usage
+if __name__ == &quot;__main__&quot;:
+filename = &quot;testfile.txt&quot; # Replace with your actual file name
+print_file_in_reverse(filename)
+
+10.
+def get_odd_elements(numbers):
+return [num for num in numbers if num % 2 != 0]
+my_list = [10, 15, 22, 33, 42, 55, 60, 71]
+odd_elements = get_odd_elements(my_list)
+print(&quot;Odd elements:&quot;, odd_elements)
+
+11.
+def count_characters_in_file(filename):
+try:
+with open(filename, &#39;r&#39;, encoding=&#39;utf-8&#39;) as file:
+content = file.read()
+return len(content)
+except FileNotFoundError:
+print(f&quot;Error: File &#39;{filename}&#39; not found.&quot;)
+return 0
+except Exception as e:
+print(f&quot;An error occurred: {e}&quot;)
+return 0
+filename = &quot;testfile.txt&quot; # Replace with your actual file name
+char_count = count_characters_in_file(filename)
+print(f&quot;Total number of characters in &#39;{filename}&#39;: {char_count}&quot;)
+
+12.
+from collections import defaultdict
+def find_anagrams(words):
+anagram_dict = defaultdict(list)
+for word in words:
+# Use the sorted letters as the key
+key = &#39;&#39;.join(sorted(word))
+anagram_dict[key].append(word)
+# Return only groups with more than one word
+return [group for group in anagram_dict.values() if len(group) &gt; 1]
+word_list = [&quot;eat&quot;, &quot;tea&quot;, &quot;ate&quot;, &quot;bat&quot;, &quot;tab&quot;, &quot;tan&quot;, &quot;ant&quot;, &quot;net&quot;, &quot;ten&quot;, &quot;hello&quot;]
+anagram_groups = find_anagrams(word_list)
+for group in anagram_groups:
+print(group)
