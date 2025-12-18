@@ -1,0 +1,284 @@
+1.
+def invertdict(d) :
+nd={}
+for k,v in d.items():
+nd[v]=k
+return nd
+d={&quot;a&quot;:&quot;b&quot;,
+&quot;c&quot;:&quot;d&quot;,
+&quot;e&quot;:&quot;f&quot;,
+&quot;g&quot;:&quot;h&quot;}
+print(d)
+ab=invertdict(d)
+print(ab)
+
+2.
+def valuesort(d):
+skeys=sorted(d)
+svalue=[]
+for key in skeys:
+svalue.append(d[key])
+return svalue
+d={&quot;apple&quot;:4,
+&quot;banana&quot;:1,
+&quot;mango&quot;:3,
+&quot;guava&quot;:2}
+result=valuesort(d)
+print(d)
+print(result)
+
+3.
+def nlargest(list,n):
+slist=sorted(list,reverse=True)
+return slist[:n]
+numbers={3,1,5,7,4,2,8,9,6}
+n=4
+largest=nlargest(numbers,n)
+
+print(&quot;{n} largest numbers are:&quot;,largest)
+
+4)
+# Mapping of digits to letters
+string_maps = {
+&quot;1&quot;: &quot;abc&quot;,
+&quot;2&quot;: &quot;def&quot;,
+&quot;3&quot;: &quot;ghi&quot;,
+&quot;4&quot;: &quot;jkl&quot;,
+&quot;5&quot;: &quot;mno&quot;,
+&quot;6&quot;: &quot;pqrs&quot;,
+&quot;7&quot;: &quot;tuv&quot;,
+&quot;8&quot;: &quot;wxy&quot;,
+&quot;9&quot;: &quot;z&quot;
+}
+def get_two_letter_combinations(digit_string):
+# Filter out any invalid digits
+letters_list = [string_maps[d] for d in digit_string if d in string_maps]
+# Generate all possible two-letter combinations
+combinations = []
+for i in range(len(letters_list)):
+for j in range(len(letters_list)):
+for pair in product(letters_list[i], letters_list[j]):
+combinations.append(&#39;&#39;.join(pair))
+return combinations
+# Example usage
+digit_input = &quot;123&quot;
+result = get_two_letter_combinations(digit_input)
+print(&quot;Two-letter combinations:&quot;)
+print(result)
+
+5)
+def count_islands(grid):
+rows, cols = len(grid), len(grid[0])
+visited = [[False for _ in range(cols)] for _ in range(rows)]
+
+def dfs(r, c):
+# Base case: out of bounds or not land or already visited
+if r &lt; 0 or r &gt;= rows or c &lt; 0 or c &gt;= cols:
+return
+if grid[r][c] == 0 or visited[r][c]:
+return
+visited[r][c] = True
+# Explore neighbors (up, down, left, right)
+dfs(r - 1, c)
+dfs(r + 1, c)
+dfs(r, c - 1)
+dfs(r, c + 1)
+island_count = 0
+for r in range(rows):
+for c in range(cols):
+if grid[r][c] == 1 and not visited[r][c]:
+dfs(r, c)
+island_count += 1
+return island_count
+# Input grid as strings
+input_data = [
+&quot;1100000111&quot;,
+&quot;1000000111&quot;,
+&quot;0000000111&quot;,
+&quot;0010001000&quot;,
+&quot;0000011100&quot;,
+&quot;0000111110&quot;,
+&quot;0001111111&quot;,
+&quot;1000111110&quot;,
+&quot;1100011100&quot;,
+&quot;1110001000&quot;
+]
+# Convert to 2D list of integers
+grid = [[int(char) for char in row] for row in input_data]
+# Count islands
+print(&quot;Number of islands:&quot;, count_islands(grid))
+
+6)
+# Read input string
+input_string = input(&quot;Enter comma-separated integers: &quot;)
+# Split the string by comma and strip spaces
+numbers = [int(num.strip()) for num in input_string.split(&#39;,&#39;)]
+# Compute double of each number
+doubled_numbers = [2 * num for num in numbers]
+# Print the result
+print(doubled_numbers)
+
+7)
+import os
+def extract_characters_from_files(file_list):
+characters = []
+for file_name in file_list:
+try:
+with open(file_name, &#39;r&#39;, encoding=&#39;utf-8&#39;) as file:
+content = file.read()
+characters.extend(list(content)) # Add each character to the list
+except FileNotFoundError:
+print(f&quot;File not found: {file_name}&quot;)
+except Exception as e:
+print(f&quot;Error reading {file_name}: {e}&quot;)
+return characters
+# Example usage
+# Replace these with actual file names in your directory
+files_to_read = [&#39;testfile.txt&#39;, &#39;data.csv&#39;, &#39;student.txt&#39;]
+char_list = extract_characters_from_files(files_to_read)
+print(&quot;Extracted characters:&quot;)
+
+print(char_list)
+
+8)
+def load_items(filename):
+items = {}
+try:
+with open(filename, &#39;r&#39;, encoding=&#39;utf-8&#39;) as file:
+for line in file:
+if &#39;|&#39; in line:
+name, price = line.strip().split(&#39;|&#39;)
+items[name.strip()] = int(price.strip())
+except FileNotFoundError:
+print(f&quot;Error: File &#39;{filename}&#39; not found.&quot;)
+exit()
+return items
+def get_valid_item(items):
+while True:
+item = input().strip()
+if item in items:
+return item
+else:
+print(f&quot;Available Items are {list(items.keys())}.&quot;)
+print(&quot;Try Again.&quot;)
+def get_valid_money():
+while True:
+money_input = input().strip()
+try:
+money = int(money_input)
+return money
+except ValueError:
+print(f&quot;Bad Input {money_input}.&quot;)
+print(&quot;Try Again.&quot;)
+def vending_machine():
+items = load_items(&quot;testfile.txt&quot;)
+print(&quot;Please select an item:&quot;)
+selected_item = get_valid_item(items)
+
+print(&quot;Please insert money:&quot;)
+deposited_money = get_valid_money()
+item_price = items[selected_item]
+if deposited_money &gt;= item_price:
+print(&quot;Thank you for your purchase. Enjoy&quot;)
+change = deposited_money - item_price
+if change &gt; 0:
+print(f&quot;Do not forget to collect your change, {change} Rs.&quot;)
+else:
+print(f&quot;Insufficient funds. {selected_item} costs {item_price} Rs.&quot;)
+# Run the vending machine
+vending_machine()
+
+9)
+def binary_search_recursive(arr, target, low, high):
+if low &gt; high:
+return -1 # Not found
+mid = (low + high) // 2
+if arr[mid] == target:
+return mid
+elif arr[mid] &gt; target:
+return binary_search_recursive(arr, target, low, mid - 1)
+else:
+return binary_search_recursive(arr, target, mid + 1, high)
+def binary_search_iterative(arr, target):
+low, high = 0, len(arr) - 1
+while low &lt;= high:
+mid = (low + high) // 2
+if arr[mid] == target:
+return mid
+elif arr[mid] &lt; target:
+low = mid + 1
+
+else:
+high = mid - 1
+return -1 # Not found
+# Example usage
+sorted_list = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+target_value = 14
+# Recursive search
+rec_result = binary_search_recursive(sorted_list, target_value, 0, len(sorted_list) - 1)
+print(f&quot;Recursive: Element {target_value} found at index {rec_result}&quot; if rec_result != -1 else
+&quot;Recursive: Element not found&quot;)
+# Iterative search
+iter_result = binary_search_iterative(sorted_list, target_value)
+print(f&quot;Iterative: Element {target_value} found at index {iter_result}&quot; if iter_result != -1 else
+&quot;Iterative: Element not found&quot;)
+
+10)
+from collections import Counter
+import re
+def most_repetitive_word(filename):
+try:
+with open(filename, &#39;r&#39;, encoding=&#39;utf-8&#39;) as file:
+text = file.read().lower() # Convert to lowercase for uniformity
+# Use regex to extract words (ignores punctuation)
+words = re.findall(r&#39;\b\w+\b&#39;, text)
+# Count word frequencies
+word_counts = Counter(words)
+# Find the most common word
+most_common = word_counts.most_common(1)
+if most_common:
+word, count = most_common[0]
+print(f&quot;The most repetitive word is &#39;{word}&#39; with {count} occurrences.&quot;)
+else:
+print(&quot;No words found in the file.&quot;)
+
+except FileNotFoundError:
+print(f&quot;Error: File &#39;{filename}&#39; not found.&quot;)
+except Exception as e:
+print(f&quot;An error occurred: {e}&quot;)
+# Example usage
+most_repetitive_word(&quot;testfile.txt&quot;)
+
+11)
+def get_unique_elements(input_list):
+unique_list = []
+seen = set()
+for item in input_list:
+if item not in seen:
+unique_list.append(item)
+seen.add(item)
+return unique_list
+original_list = [1, 2, 2, 3, 4, 4, 5, 1, 6]
+unique = get_unique_elements(original_list)
+print(&quot;Unique elements:&quot;, unique)
+
+12
+def first_non_repeating(string):
+for char in string:
+if string.count(char) == 1:
+return char
+return None
+print(first_non_repeating(&quot;apple&quot;))
+
+1
+13)
+import re
+
+def remove_parenthesis_area(strings):
+cleaned = [re.sub(r&#39;\s*\(.*?\)&#39;, &#39;&#39;, s) for s in strings]
+return cleaned
+# Sample data
+data = [&quot;example (.com)&quot;, &quot;w3resource&quot;, &quot;github (.com)&quot;, &quot;stackoverflow (.com)&quot;]
+# Process and print result
+result = remove_parenthesis_area(data)
+print(result)
